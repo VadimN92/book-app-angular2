@@ -1,0 +1,21 @@
+<form [formGroup]="addBookForm" class="form-group" (submit)="onBookAdd(addBookForm.value)">
+  <div class="form-group">
+    <label for="name">Name of book:</label>
+    <input type="text" class="form-control" id="name" formControlName="name">
+  </div>
+  <div class="form-group">
+  <label for="sel1">Select author:</label>
+  <select class="form-control" id="sel1" formControlName="authorId">
+    <option *ngFor="let author of bookAuthors" [value]="author.id">{{author.name}}</option>
+  </select>
+</div>
+  <button type="submit" class="btn btn-primary">Create book</button>
+</form>
+
+
+
+
+
+
+
+
