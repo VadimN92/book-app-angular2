@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { Request, Response, Http } from '@angular/http';
 import { LoginUser } from '../classes/login-user';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/toPromise';
 import {RESTClient, GET, PUT, POST, DELETE, BaseUrl, Headers, DefaultHeaders, Path, Body, Query} from 'angular2-rest';
 
 import { config } from '../config/config';
-import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 @BaseUrl(config.serverPath)
@@ -23,17 +24,13 @@ export class HttpApiService extends RESTClient {
 	"
 	just comment constructor
 	*/
-	constructor(http: Http) {
+	constructor(http: Http, router: Router) {
 		super(http);
 	}
 
 
 	public responseInterceptor(res: Observable) {
 		console.log(res);
-		res.subscribe(r => {
-			var response = r.json();
-			console.log(r.status);
-		})
         return res;
     }
 

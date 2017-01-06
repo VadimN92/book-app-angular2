@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validator } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
@@ -18,8 +18,8 @@ export class LoginComponent implements OnInit {
 	ngOnInit() {
 		this.authService.logout();
 		this.loginForm = new FormGroup({
-			email: new FormControl(''),
-			password: new FormControl('')
+			email: new FormControl('', Validators.required),
+			password: new FormControl('', Validators.required)
 		});
 	}
 

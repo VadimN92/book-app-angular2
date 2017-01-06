@@ -1,6 +1,4 @@
-export class LoginUser {
-	constructor(
-			private email: string,
-			private password: string
-		) {}
+export interface LoginUser {
+	email: string;
+	password: string;
 }
