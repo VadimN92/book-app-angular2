@@ -13,7 +13,7 @@ export class BookComponent {
 
 	@Input('data') book: any;
 
-	onDeleteBook(id: number) {
+	onDeleteBook(id: string) {
 		this.booksService.deleteBook(id);
 	}
 	

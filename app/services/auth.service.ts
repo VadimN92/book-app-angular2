@@ -9,12 +9,25 @@ import { HttpApiService } from '../api/http-api.service';
 
 @Injectable()
 
-export class AuthService {
+export class AuthService implements OnInit {
+
+	 subscription: any;
 
 	constructor(
 		private router: Router,
 		private httpApiService: HttpApiService,
 		private cookieService: CookieService) {}
+
+	ngOnInit() {
+		this.subscription = this.httpApiService.getResponseChangeEmmiter()
+		.subscribe((res: any) => {
+			console.log(res);
+		})
+	}
+
+	ngOnDestroy() {
+    	this.subscription.unsubscribe();
+  	}
 
 	login(user: any) {
 		return this.httpApiService.loginUser(user).toPromise();

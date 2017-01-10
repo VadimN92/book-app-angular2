@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Request, Response, Http } from '@angular/http';
 import { LoginUser } from '../classes/login-user';
 import { Observable } from 'rxjs/Observable';
@@ -17,6 +17,8 @@ import { Router } from '@angular/router';
 
 export class HttpApiService extends RESTClient {
 
+	responseChange: EventEmitter<Response> = new EventEmitter;
+
 	/* if you have like this error (when you do 'npm start') : "
 		app/services/http-api.service.ts(16,9): error TS2345: Argument of type 'Http' is not assignable to parameter of type 'Http'.
   	Property '_backend' is protected but type 'Http' is not a class derived from 'Http'.
@@ -24,15 +26,22 @@ export class HttpApiService extends RESTClient {
 	"
 	just comment constructor
 	*/
-	constructor(http: Http, router: Router) {
+	constructor(http: Http) {
 		super(http);
 	}
 
+	public getResponseChangeEmmiter() {
+		return this.responseChange;
+	}
 
-	public responseInterceptor(res: Observable) {
-		console.log(res);
+
+/*	protected responseInterceptor(res: any): any {
+		res.subscribe((r: any) => {
+			console.log(r);
+			this.responseChange.emit(r);
+		});
         return res;
-    }
+    }*/
 
 
 	@POST('/api/login')
@@ -44,6 +53,9 @@ export class HttpApiService extends RESTClient {
 
 	@POST('/api/authors')
 	public authorAdd( @Body author: any): Observable<any> { return null; };
+
+	@PUT('/api/authors/{id}')
+	public authorEdit( @Path ("id") id: string, @Body author: any): Observable<any> { return null; };
 
 	@DELETE('/api/authors/{id}')
 	public deleteAuthor( @Path("id") id: string): Observable<any> { return null; };

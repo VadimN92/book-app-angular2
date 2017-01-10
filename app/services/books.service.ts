@@ -20,7 +20,7 @@ export class BooksService {
 			});
 	}
 
-	deleteBook(id: number) {
+	deleteBook(id: string) {
 		this.httpApiService.deleteBook(id).toPromise().then(data => {
 			var res = data.json();
 			var bookIndex = this.books.findIndex(b => b.id == res.id);

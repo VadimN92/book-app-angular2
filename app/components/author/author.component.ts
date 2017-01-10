@@ -12,12 +12,13 @@ export class AuthorComponent {
 
 	@Input('data') author: any;
 
-	deleteAuthor(id: number) {
+	deleteAuthor(id: string) {
 		this.authorsService.deleteAuthor(id);
 	}
 
 	onEditAuthor(a: any) {
 		console.log(a);
+		this.authorsService.createFormAuthor(a);
 	}
 	
 }

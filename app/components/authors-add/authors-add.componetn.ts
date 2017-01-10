@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 import { AuthorsService } from '../../services/authors.service';
 
@@ -8,21 +8,37 @@ import { AuthorsService } from '../../services/authors.service';
 	templateUrl: './app/components/authors-add/authors-add.componetn.html'
 })
 
-export class AuthorsAddComponent implements OnInit {
+export class AuthorsAddComponent implements OnInit, OnDestroy {
 	addAuthorForm: FormGroup;
+	subFormAuthor: any;
 	constructor(private authorsService: AuthorsService ) {}
 
 	ngOnInit() {
-		this.addAuthorForm = new FormGroup({
-			name: new FormControl('')
-		})
+		this.authorsService.createFormAuthor();
+		this.addAuthorForm = this.authorsService.getAuthorForm();
+		this.subFormAuthor = this.authorsService.getAuthorFormChange()
+			.subscribe((value: any) => {
+				this.addAuthorForm = this.authorsService.getAuthorForm();
+			})
 	}
 
-	onAuthorAdd(newAuthor: any) {
+	ngOnDestroy() {
+		this.subFormAuthor.unsubscribe();
+	}
 
-		console.log(newAuthor);
-		this.authorsService.addAuthor(newAuthor);
-		this.addAuthorForm.reset()
+	onAuthorSubmit(author: any) {
+		if(author.id) {
+			this.authorsService.editAuthor(author);
+			this.addAuthorForm.reset()
+		} else {
+			this.authorsService.addAuthor(author);
+			this.addAuthorForm.reset()
+		}
+		
+	}
+
+	onAuthorEdit(editAuthor: any) {
+		console.log(editAuthor);
 	}
 
 }
