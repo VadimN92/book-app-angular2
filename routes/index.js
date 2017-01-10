@@ -26,11 +26,12 @@ var books = [
 		name: 'Roottttin', 
 		author: '' 
 	}
-]
+];
 
 
 var isAuth = function(req, res, next) {
 	var user = users.find(u => req.cookies.token == u.token);
+	console.log(user);
 	if(!user) {
 		console.log('No users');
 		res.sendStatus(401);
