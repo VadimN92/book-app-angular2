@@ -1,38 +1,13 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable} from '@angular/core';
 import { HttpApiService } from '../api/http-api.service';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-
-import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class AuthorsService {
 	public authors: Array<any>;
-	public formAuthor: FormGroup;
-	public authorFormChange: EventEmitter<any> = new EventEmitter();
 
 	constructor(
 		private httpApiService: HttpApiService,
-		private formBuilder: FormBuilder
 		) {}
-
-	createFormAuthor(author: any = {name: '', id: null}) {
-		console.log(author);
-		this.formAuthor = this.formBuilder.group({
-			name: [author.name, Validators.required],
-			id: author.id
-		});
-
-		console.log(this.formAuthor.value);
-		this.authorFormChange.emit(author);
-	}
-
-	getAuthorForm() {
-		return this.formAuthor;
-	}
-
-	getAuthorFormChange() {
-		return this.authorFormChange;
-	}
 
 	addAuthor(author: any) {
 		this.httpApiService.authorAdd(author).toPromise().then(data => {

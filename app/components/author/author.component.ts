@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { AuthorsService } from '../../services/authors.service';
+import { AuthorFormService } from '../../forms/author-form.service';
 
 @Component({
 	selector: 'author',
@@ -11,7 +11,7 @@ export class AuthorComponent {
 	@Input('data') author: any;
 	@Output() deleteAuthor: EventEmitter<any> = new EventEmitter();
 
-	constructor(private authorsService: AuthorsService) {}
+	constructor(private authorFormService: AuthorFormService) {}
 
 
 	onDeleteAuthor(author: any) {
@@ -19,7 +19,7 @@ export class AuthorComponent {
 	}
 
 	onEditAuthor(a: any) {
-		this.authorsService.createFormAuthor(a);
+		this.authorFormService.updateAuthorForm(a);
 	}
-	
+
 }

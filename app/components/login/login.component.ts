@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
+import { LoginFormService } from '../../forms/login-form.service';
 
 @Component({
 	selector: 'login',
@@ -13,14 +14,14 @@ export class LoginComponent implements OnInit {
 	loginForm: FormGroup;
 	errorMsg: string = '';
 
-	constructor(private authService: AuthService, private router: Router) {}
+	constructor(
+	  	private authService: AuthService,
+    	private router: Router,
+    	private loginFormService: LoginFormService) {}
 
 	ngOnInit() {
 		this.authService.logout();
-		this.loginForm = new FormGroup({
-			email: new FormControl('', Validators.required),
-			password: new FormControl('', Validators.required)
-		});
+		this.loginForm = this.loginFormService.createLoginForm();
 	}
 
 	onLogin(user: any) {
@@ -28,6 +29,7 @@ export class LoginComponent implements OnInit {
 		this.authService.login(user)
 			.then((res) => {
 				localStorage.setItem('isAuth', 'true');
+				localStorage.setItem('token', res.token);
 				this.router.navigate(['home']);
 			})
 			.catch((err) => {
@@ -36,10 +38,3 @@ export class LoginComponent implements OnInit {
 	}
 
 }
-
-
-/*(status: boolean, msg: string = '') => {
-			if(!status) {
-				this.errorMsg = msg;
-			}
-		})*/

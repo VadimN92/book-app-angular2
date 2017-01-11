@@ -1,7 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Response } from '@angular/http';
-import { CookieService } from 'angular2-cookie/core';
 import 'rxjs/add/operator/toPromise';
 
 
@@ -15,8 +14,7 @@ export class AuthService implements OnInit {
 
 	constructor(
 		private router: Router,
-		private httpApiService: HttpApiService,
-		private cookieService: CookieService) {}
+		private httpApiService: HttpApiService) {}
 
 	ngOnInit() {
 		
@@ -26,12 +24,11 @@ export class AuthService implements OnInit {
   	}
 
 	login(user: any) {
-		return this.httpApiService.loginUser(user).toPromise();
+		return this.httpApiService.loginUser(user).toPromise().then(data => data.json());
 	}
 
 	logout() {
-		// remove cookies
-		this.cookieService.remove('token');
+		localStorage.removeItem('token');
 		localStorage.removeItem('isAuth');
 		this.router.navigate(['login']);
 	}

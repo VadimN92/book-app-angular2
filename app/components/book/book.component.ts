@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { BooksService } from '../../services/books.service';
+import { BookFormService } from '../../forms/book-fotm.service';
 
 @Component({
 	selector: 'book',
@@ -7,7 +7,7 @@ import { BooksService } from '../../services/books.service';
 })
 
 export class BookComponent {
-	constructor(private booksService: BooksService) {}
+	constructor(private bookFormService: BookFormService) {}
 
 	@Input('data') book: any;
 	@Output() deleteBook = new EventEmitter();
@@ -17,7 +17,7 @@ export class BookComponent {
 	}
 
 	onEditBook(book: any) {
-		this.booksService.createBookForm(book);
+		this.bookFormService.updateBookForm(book);
 	}
-	
+
 }

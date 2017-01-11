@@ -33,16 +33,12 @@ var books = [
 
 var isAuth = function(req, res, next) {
 	var user = users.find(u => {
-		return req.cookies.token == u.token;
+		return req.headers.token == u.token;
 	});
-	console.log(user);
 	if(!user) {
 		console.log('No users');
 		res.sendStatus(401);
 	} else {
-		/*var newCookie = Date.now();
-		user.token = newCookie;
-		res.cookie('token', newCookie);*/
 		return next();
 	}
 }
@@ -53,13 +49,11 @@ routes.post('/api/login', function(req, res) {
 	var authenticatedUser = users.find(u => req.body.email === u.email);
 	
 	if(authenticatedUser && authenticatedUser.password === req.body.password) {
-		var newCookie = Date.now();
-		authenticatedUser.token = newCookie;
-		console.log('newCookie ' + newCookie);
-		res.cookie('token', newCookie);
-		return res.end();
+		var newTokin = Date.now();
+		authenticatedUser.token = newTokin;
+		return res.json({'token': newTokin});
 	}
-	res.send(401);
+	res.send(404);
 })
 
 routes.get('/api/authors', isAuth, function(req, res) {
@@ -137,7 +131,7 @@ routes.put('/api/books/:id', isAuth, function(req, res) {
 	res.json(book);
 });
 
-routes.delete('/api/books/:id', function(req, res) {
+routes.delete('/api/books/:id', isAuth, function(req, res) {
 	var id = req.params.id;
 	var bookIndex = books.findIndex(b => b.id == id);
 	if(bookIndex == -1) {

@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { AuthorFormService } from '../../forms/author-form.service';
 
 import { AuthorsService } from '../../services/authors.service';
 
@@ -11,15 +12,16 @@ import { AuthorsService } from '../../services/authors.service';
 export class AuthorsAddComponent implements OnInit, OnDestroy {
 	addAuthorForm: FormGroup;
 	subFormAuthor: any;
-	constructor(private authorsService: AuthorsService ) {}
+	constructor(
+	  private authorsService: AuthorsService,
+  private authorFormService: AuthorFormService) {}
 
 	ngOnInit() {
-		this.authorsService.createFormAuthor();
-		this.addAuthorForm = this.authorsService.getAuthorForm();
-		this.subFormAuthor = this.authorsService.getAuthorFormChange()
-			.subscribe((value: any) => {
-				this.addAuthorForm = this.authorsService.getAuthorForm();
-			})
+    this.addAuthorForm = this.authorFormService.createFormAuthor();
+		this.subFormAuthor = this.authorFormService.getAuthorFormChange()
+			.subscribe((form: FormGroup) => {
+				this.addAuthorForm = form;
+			});
 	}
 
 	ngOnDestroy() {
@@ -34,7 +36,7 @@ export class AuthorsAddComponent implements OnInit, OnDestroy {
 			this.authorsService.addAuthor(author);
 			this.addAuthorForm.reset()
 		}
-		
+
 	}
 
 	onCanceledit() {

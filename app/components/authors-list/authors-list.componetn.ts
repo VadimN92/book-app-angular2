@@ -8,8 +8,10 @@ import { AuthorsService } from '../../services/authors.service';
 })
 
 export class AuthorsListComponent implements OnInit {
+	
 	authorsC: Array<any>;
 	deleteAuthor: any;
+
 	constructor(private authorsService: AuthorsService) {}
 
 	ngOnInit() {
@@ -30,7 +32,6 @@ export class AuthorsListComponent implements OnInit {
 
 	onDeleteAuthor() {
 		this.authorsService.deleteAuthor(this.deleteAuthor.id);
-		console.log('pushed buuton to delete author');
 	}
 
 }

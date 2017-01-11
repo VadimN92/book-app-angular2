@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Request, Response, Http } from '@angular/http';
-import { LoginUser } from '../classes/login-user';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 import {RESTClient, GET, PUT, POST, DELETE, BaseUrl, Headers, DefaultHeaders, Path, Body, Query} from 'angular2-rest';
 
 import { config } from '../config/config';
-import { Router } from '@angular/router';
 
 @Injectable()
 @BaseUrl(config.serverPath)
 @DefaultHeaders({
-  //'Accept': 'application/json',
+  	//'Accept': 'application/json',
 	'Content-Type': 'application/json'
 })
 
@@ -27,6 +25,16 @@ export class HttpApiService extends RESTClient {
 	constructor(http: Http) {
 		super(http);
 	}
+
+	protected requestInterceptor(req: Request): void {
+		console.log(req);
+		if(localStorage.getItem('isAuth')) {
+			req.headers.append('token', localStorage.getItem('token'));
+		}
+        /*if (SessionFactory.getInstance().isAuthenticated) {
+            req.headers.append('jwt', SessionFactory.getInstance().credentials.jwt);
+        }*/
+    }
 
 
 /*	protected responseInterceptor(res: any): any {
@@ -56,7 +64,7 @@ export class HttpApiService extends RESTClient {
 	/* /@ AUTHORS */
 
 	/* @ BOOKS */
-	
+
 	@GET('/api/books')
 	public getBooks(): Observable<any> { return null; };
 

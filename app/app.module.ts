@@ -27,18 +27,21 @@ import { HttpApiService } from './api/http-api.service';
 import { AuthGuard } from './services/auth-guard';
 import { AuthorsService } from './services/authors.service';
 import { BooksService } from './services/books.service';
+import { LoginFormService } from './forms/login-form.service';
+import { BookFormService } from './forms/book-fotm.service';
+import { AuthorFormService } from './forms/author-form.service';
 
 import { routing } from './routing';
- 
+
 @NgModule({
-  imports:      [ 
+  imports:      [
   	BrowserModule,
     HttpModule,
     ReactiveFormsModule,
   	routing,
-    ModalModule 
+    ModalModule
   ],
-  declarations: [ 
+  declarations: [
   	AppComponent,
   	HomeComponent,
   	LoginComponent,
@@ -58,7 +61,10 @@ import { routing } from './routing';
     AuthService,
   	HttpApiService,
     AuthorsService,
-    BooksService
+    BooksService,
+    LoginFormService,
+    BookFormService,
+    AuthorFormService
   ],
   bootstrap:    [ AppComponent ]
 })

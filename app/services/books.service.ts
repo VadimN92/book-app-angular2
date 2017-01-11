@@ -1,5 +1,4 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Injectable } from '@angular/core';
 
 import { HttpApiService } from '../api/http-api.service';
 import { AuthService } from './auth.service';
@@ -7,33 +6,10 @@ import { AuthService } from './auth.service';
 @Injectable()
 export class BooksService {
 	public books: Array<any>;
-	public bookForm: FormGroup;
-	public bookFormChange: EventEmitter<any> = new EventEmitter();
 
 	constructor(
 		private httpApiService: HttpApiService,
-		private formBuilder: FormBuilder,
-		private authService: AuthService
-		) {}
-
-	createBookForm(book: any = {name: '', id: null, author: {id: '0'}}) {
-		console.log(book);
-		this.bookForm = this.formBuilder.group({
-			name: [book.name, Validators.required],
-			authorId: book.author.id,
-			id: book.id
-		});
-
-		this.bookFormChange.emit(book);
-	}
-
-	getBookForm() {
-		return this.bookForm;
-	}
-
-	getBookFormChange() {
-		return this.bookFormChange;
-	}
+		private authService: AuthService) {}
 
 	addBook(book: any) {
 		this.httpApiService.addBook(book).toPromise().then(data => {

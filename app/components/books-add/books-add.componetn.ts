@@ -3,6 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 
 import { BooksService } from '../../services/books.service';
 import { AuthorsService } from '../../services/authors.service';
+import { BookFormService } from '../../forms/book-fotm.service';
 
 @Component({
 	selector: 'books-add',
@@ -16,25 +17,26 @@ export class BooksAddComponent implements OnInit, OnDestroy {
 
 	constructor(
 		private booksService: BooksService,
-		private authorsService: AuthorsService ) {}
+		private authorsService: AuthorsService,
+    private bookFormService: BookFormService) {}
 
 	ngOnInit() {
-		this.booksService.createBookForm();
-		this.addBookForm = this.booksService.getBookForm();
+	  /* Create form */
+    this.addBookForm = this.bookFormService.createBookForm();
 
 		this.authorsService.getAuthors()
 			.then(res => {
-				console.log(res);	
+				console.log(res);
 				this.bookAuthors = this.authorsService.authors;
 			})
 			.catch(err => {
 				console.error(err);
 			});
 
-		this.subBookForm = this.booksService.getBookFormChange()
-			.subscribe((s:any) => {
-				this.addBookForm = this.booksService.getBookForm();
-			})
+		this.subBookForm = this.bookFormService.getBookFormChange()
+			.subscribe((form: FormGroup) => {
+				this.addBookForm = form;
+			});
 	}
 
 	ngOnDestroy() {
@@ -48,7 +50,7 @@ export class BooksAddComponent implements OnInit, OnDestroy {
 		} else {
 			this.booksService.addBook(book);
 		}
-		
+
 		this.addBookForm.reset();
 	}
 
