@@ -1,5 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Response } from '@angular/http';
 import { CookieService } from 'angular2-cookie/core';
 import 'rxjs/add/operator/toPromise';
 
@@ -11,7 +12,6 @@ import { HttpApiService } from '../api/http-api.service';
 
 export class AuthService implements OnInit {
 
-	 subscription: any;
 
 	constructor(
 		private router: Router,
@@ -19,14 +19,10 @@ export class AuthService implements OnInit {
 		private cookieService: CookieService) {}
 
 	ngOnInit() {
-		this.subscription = this.httpApiService.getResponseChangeEmmiter()
-		.subscribe((res: any) => {
-			console.log(res);
-		})
+		
 	}
 
 	ngOnDestroy() {
-    	this.subscription.unsubscribe();
   	}
 
 	login(user: any) {
@@ -48,6 +44,12 @@ export class AuthService implements OnInit {
 
 	isLogined() {
 		return JSON.parse(localStorage.getItem('isAuth'));
+	}
+
+	isResponseAuth(response: Response) {
+		if(response.status == 401) {
+			this.logout();
+		}
 	}
 
 }

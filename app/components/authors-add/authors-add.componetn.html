@@ -4,6 +4,7 @@
     <input type="text" class="form-control" id="name" formControlName="name">
   </div>
   <button type="submit" class="btn btn-primary" [disabled]="!addAuthorForm.valid">{{addAuthorForm.value.id? 'Edit author' : 'Create author'}}</button>
+  <button type="submit" class="btn btn-danger" *ngIf="addAuthorForm.value.id" (click)='onCanceledit()'>Cancel edit</button>
 </form>
 
 

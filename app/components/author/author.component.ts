@@ -1,4 +1,4 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { AuthorsService } from '../../services/authors.service';
 
 @Component({
@@ -8,16 +8,17 @@ import { AuthorsService } from '../../services/authors.service';
 
 export class AuthorComponent {
 
+	@Input('data') author: any;
+	@Output() deleteAuthor: EventEmitter<any> = new EventEmitter();
+
 	constructor(private authorsService: AuthorsService) {}
 
-	@Input('data') author: any;
 
-	deleteAuthor(id: string) {
-		this.authorsService.deleteAuthor(id);
+	onDeleteAuthor(author: any) {
+		this.deleteAuthor.emit(author);
 	}
 
 	onEditAuthor(a: any) {
-		console.log(a);
 		this.authorsService.createFormAuthor(a);
 	}
 	

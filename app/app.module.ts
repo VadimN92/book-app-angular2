@@ -5,6 +5,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
+import { ModalModule } from "ng2-modal";
+
 
 
 import { AppComponent }  from './app.component';
@@ -33,7 +35,8 @@ import { routing } from './routing';
   	BrowserModule,
     HttpModule,
     ReactiveFormsModule,
-  	routing 
+  	routing,
+    ModalModule 
   ],
   declarations: [ 
   	AppComponent,

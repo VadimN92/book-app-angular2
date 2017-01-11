@@ -1,4 +1,4 @@
-<form [formGroup]="addBookForm" class="form-group" (submit)="onBookAdd(addBookForm.value)">
+<form [formGroup]="addBookForm" class="form-group" (submit)="onBookSubmit(addBookForm.value)">
   <div class="form-group">
     <label for="name">Name of book:</label>
     <input type="text" class="form-control" id="name" formControlName="name">
@@ -9,7 +9,8 @@
     <option *ngFor="let author of bookAuthors" [value]="author.id">{{author.name}}</option>
   </select>
 </div>
-  <button type="submit" class="btn btn-primary">Create book</button>
+  <button type="submit" class="btn btn-primary" [disabled]="!addBookForm.valid">{{addBookForm.value.id? 'Edit book': 'Create book'}}</button>
+  <button type="submit" class="btn btn-danger" *ngIf="addBookForm.value.id" (click)="onCancelEdit()">Cancel edit</button>
 </form>
 
 

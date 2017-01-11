@@ -1,3 +1,16 @@
 <ul class="list-group">
-  <author *ngFor="let author of authorsC" [data]="author"></author>
+  <author *ngFor="let author of authorsC" [data]="author" (deleteAuthor)="openModalDelete(author); deleteAuthorModal.open()"></author>
 </ul>
+
+<modal 
+	#deleteAuthorModal
+	submitButtonLabel="Delete"
+	cancelButtonLabel="Cancel"
+	(onSubmit)="onDeleteAuthor(); deleteAuthorModal.close()"
+	(onClose)="deleteAuthorModal.close()">
+    <modal-header>
+        <h1>Do you watn to delete the author?</h1>
+    </modal-header>
+    <modal-footer>
+    </modal-footer>
+</modal>

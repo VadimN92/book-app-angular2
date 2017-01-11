@@ -1,3 +1,16 @@
-<ul class="list-group">
-  <book *ngFor="let book of booksC" [data]="book"></book>
+<ul class="list-group" >
+  <book *ngFor="let book of booksC" [data]="book" (deleteBook)="openModalDelete(book); deleteBookModal.open()"></book>
 </ul>
+
+<modal 
+	#deleteBookModal
+	submitButtonLabel="Delete"
+	cancelButtonLabel="Cancel"
+	(onSubmit)="onDeleteBook(); deleteBookModal.close()"
+	(onClose)="deleteBookModal.close()">
+    <modal-header>
+        <h1>Do you watn to delete the book?</h1>
+    </modal-header>
+    <modal-footer>
+    </modal-footer>
+</modal>

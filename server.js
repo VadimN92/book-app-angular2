@@ -1,4 +1,5 @@
 var express = require('express');
+
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 
@@ -35,6 +36,7 @@ app.use(function (req, res, next) {
 })
 
 // MIDDLEWARES
+
 // parse application/x-www-form-urlencoded 
 app.use(bodyParser.urlencoded({ extended: false }))
  

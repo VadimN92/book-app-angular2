@@ -8,8 +8,13 @@ import { BooksService } from '../../services/books.service';
 })
 
 export class BooksListComponent implements OnInit {
+
 	booksC: Array<any>;
-	constructor(private booksService: BooksService) {}
+	deleteBook: any;
+
+	constructor(
+		private booksService: BooksService
+		) {}
 
 	ngOnInit() {
 		
@@ -22,5 +27,15 @@ export class BooksListComponent implements OnInit {
 				console.error(err);
 			});
 	}
+
+	onDeleteBook() {
+		this.booksService.deleteBook(this.deleteBook.id);
+	}
+
+	openModalDelete(book: any) {
+		console.log(book);
+		this.deleteBook = book;
+	}
+	
 
 }

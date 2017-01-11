@@ -37,8 +37,8 @@ export class AuthorsAddComponent implements OnInit, OnDestroy {
 		
 	}
 
-	onAuthorEdit(editAuthor: any) {
-		console.log(editAuthor);
+	onCanceledit() {
+		this.addAuthorForm.reset();
 	}
 
 }

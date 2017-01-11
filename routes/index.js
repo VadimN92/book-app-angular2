@@ -1,4 +1,6 @@
 var routes = require('express').Router();
+var csrf = require('csurf');
+var csrfProtection = csrf({ cookie: true });
 
 
 
@@ -6,12 +8,12 @@ var users = [
 	{
 		email: 'vadim@vadim.ua',
 		password: '123456',
-		token: undefined
+		token: null
 	},
 	{
 		email: 'admin@admin.ua',
 		password: 'admin',
-		token: undefined
+		token: null
 	}
 ];
 var authors = [
@@ -30,7 +32,9 @@ var books = [
 
 
 var isAuth = function(req, res, next) {
-	var user = users.find(u => req.cookies.token == u.token);
+	var user = users.find(u => {
+		return req.cookies.token == u.token;
+	});
 	console.log(user);
 	if(!user) {
 		console.log('No users');
@@ -39,10 +43,8 @@ var isAuth = function(req, res, next) {
 		/*var newCookie = Date.now();
 		user.token = newCookie;
 		res.cookie('token', newCookie);*/
-		next();
+		return next();
 	}
-
-	
 }
 
 
@@ -53,6 +55,7 @@ routes.post('/api/login', function(req, res) {
 	if(authenticatedUser && authenticatedUser.password === req.body.password) {
 		var newCookie = Date.now();
 		authenticatedUser.token = newCookie;
+		console.log('newCookie ' + newCookie);
 		res.cookie('token', newCookie);
 		return res.end();
 	}
@@ -117,6 +120,22 @@ routes.post('/api/books', isAuth, function(req, res) {
 	res.status(201);
 	res.send(newBook);
 })
+
+routes.put('/api/books/:id', isAuth, function(req, res) {
+	var id = req.params.id;
+	var author = authors.find(a => a.id == req.body.authorId) || {name: ''};
+	console.log('Edit book, id: ' + id);
+	var book = books.find(b => b.id == id);
+	if(!book) {
+		res.sendStatus(400);
+	}
+
+	book = {
+		name: req.body.name,
+		author: author
+	}
+	res.json(book);
+});
 
 routes.delete('/api/books/:id', function(req, res) {
 	var id = req.params.id;
