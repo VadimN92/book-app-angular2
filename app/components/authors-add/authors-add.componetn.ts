@@ -3,10 +3,11 @@ import { FormGroup } from '@angular/forms';
 import { AuthorFormService } from '../../forms/author-form.service';
 
 import { AuthorsService } from '../../services/authors.service';
+import { Author } from '../../interfaces/author';
 
 @Component({
 	selector: 'authors-add',
-	templateUrl: './app/components/authors-add/authors-add.componetn.html'
+	templateUrl: './app/components/authors-add/authors-add.component.html'
 })
 
 export class AuthorsAddComponent implements OnInit, OnDestroy {
@@ -28,7 +29,8 @@ export class AuthorsAddComponent implements OnInit, OnDestroy {
 		this.subFormAuthor.unsubscribe();
 	}
 
-	onAuthorSubmit(author: any) {
+	onAuthorSubmit(author: Author) {
+    console.log(author);
 		if(author.id) {
 			this.authorsService.editAuthor(author);
 			this.addAuthorForm.reset()

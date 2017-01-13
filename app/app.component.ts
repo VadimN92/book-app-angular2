@@ -6,6 +6,8 @@ import { AuthService } from './services/auth.service';
   selector: 'my-app',
   templateUrl: './app/app.component.html'
 })
-export class AppComponent  { 
-	constructor(public authService: AuthService) {}
+export class AppComponent  {
+	constructor(public authService: AuthService) {
+	  console.log(this.authService.getTestNum());
+  }
 }

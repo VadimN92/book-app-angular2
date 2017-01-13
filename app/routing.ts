@@ -39,13 +39,3 @@ const appRouters = [
 ]
 
 export const routing = RouterModule.forRoot(appRouters);
-
-/*canActivate: [AuthGuard]
-
-{
-				path: '',
-				redirectTo: 'authors',
-				pathMatch: 'full'
-			},
-
-*/

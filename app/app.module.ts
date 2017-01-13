@@ -1,4 +1,4 @@
-import { NgModule }      from '@angular/core';
+import { NgModule, APP_INITIALIZER }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -33,6 +33,10 @@ import { AuthorFormService } from './forms/author-form.service';
 
 import { routing } from './routing';
 
+/*function configServiceFactory (authService: AuthService) {
+  return () => authService.preLoadMethod();
+}*/
+
 @NgModule({
   imports:      [
   	BrowserModule,
@@ -64,7 +68,13 @@ import { routing } from './routing';
     BooksService,
     LoginFormService,
     BookFormService,
-    AuthorFormService
+    AuthorFormService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (authService: AuthService) => () => authService.preLoadMethod(),
+      deps: [AuthService],
+      multi: true
+    }
   ],
   bootstrap:    [ AppComponent ]
 })

@@ -5,6 +5,7 @@ import 'rxjs/add/operator/toPromise';
 import {RESTClient, GET, PUT, POST, DELETE, BaseUrl, Headers, DefaultHeaders, Path, Body, Query} from 'angular2-rest';
 
 import { config } from '../config/config';
+import {log} from "util";
 
 @Injectable()
 @BaseUrl(config.serverPath)
@@ -22,28 +23,23 @@ export class HttpApiService extends RESTClient {
 	"
 	just comment constructor
 	*/
-	constructor(http: Http) {
+/*	constructor(http: Http) {
 		super(http);
-	}
-
+	}*/
 	protected requestInterceptor(req: Request): void {
-		console.log(req);
 		if(localStorage.getItem('isAuth')) {
 			req.headers.append('token', localStorage.getItem('token'));
 		}
-        /*if (SessionFactory.getInstance().isAuthenticated) {
-            req.headers.append('jwt', SessionFactory.getInstance().credentials.jwt);
-        }*/
-    }
+  }
 
+  public purseObs():void {
 
-/*	protected responseInterceptor(res: any): any {
-		res.subscribe((r: any) => {
-			console.log(r);
-			this.responseChange.emit(r);
-		});
-        return res;
-    }*/
+  }
+
+/*  protected responseInterceptor(res: Observable<any>): Observable<any> {
+    return res;
+  }*/
+
 
 
 	@POST('/api/login')
